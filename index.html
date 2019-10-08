@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Lottery</title>
+
+    <script language="javascript" type="text/javascript">
+        var num = 1;
+        var luckyNumber = Math.round(Math.random()*18+1);
+        var lotteryNums = new Array();
+        lotteryNums.push(luckyNumber);
+        for (var i = 0; i < 5; i++) {
+            num = Math.round(Math.random()*48+1);
+
+            lotteryNums.push(num);
+
+        }
+
+
+        document.write("Lucky Number is:" + luckyNumber + "<br>");
+        document.write("Lottery Numbers are:");
+        for (var i = 0; i < lotteryNums.length; i++) {
+            document.write(lotteryNums[i] + " ");
+        }
+
+        lotteryNums.sort(function(lotteryNums,b) {return lotteryNums -b});
+
+        document.write("<br> Sorted Lottery Numbers are:");
+
+         for (var i = 0; i < lotteryNums.length; i++) {
+            document.write(lotteryNums[i] + " ");
+        }
+
+         for (var i = 0; i < lotteryNums.length; i++) {
+            if(lotteryNums[i] == luckyNumber){
+                lotteryNums.splice(i, 1);
+                break;
+            }
+         }
+
+    </script>
+
+</head>
+
+<body>
+    <form>
+        <input type="text"  id="txt1" value="Lottery Numbers">
+        <input type="text"  id="txt2" value="Lucky Number">
+        <input type='button' onclick='match()' value="Calculate Matches">
+    </form>
+
+    <script language="javascript" type="text/javascript">
+        function match(){
+            var payout;
+            var match_counter = 0;
+            var tempNums = document.getElementById("txt1").value;
+            tempNums = tempNums.split(' ');
+
+            var userLuckyNum = document.getElementById("txt2").value;
+            userLuckyNum = parseInt(userLuckyNum, 10);
+
+            var userNums = tempNums.map(parse);
+
+            for(var i = 0; i < userNums.length; i++) {
+                match_counter += find_match(userNums[i], lotteryNums);
+            }
+
+            reward(match_counter, userLuckyNum, luckyNumber);
+
+
+        }
+
+        function parse(num){
+            return parseInt(num,10);   
+        }
+
+        function find_match(num, numRay){
+            var count = 0;
+            var include = numRay.includes(num);
+            if(include){
+                count +=1;
+            }
+            return count;
+        }
+        function reward(num_matches, ULN, luckN){
+            var payout;
+
+            if(num_matches == 5 && ULN == luckN){
+                 payout ="Congrats you've won $7000 a WEEK for LIFE"; 
+                alert(payout);
+            } 
+            else if(num_matches == 5 && ULN!= luckN){
+                payout = "Congrats you've won $25000 a YEAR for LIFE";
+                alert(payout);
+            }
+
+            else if (num_matches == 4 && ULN == luckN) {
+                payout = "Congrats you've won $5000";
+                alert(payout);
+            }
+            else if(num_matches == 4 && ULN != luckN){
+                payout = "Congrats you've won $200";
+                alert(payout);
+            }
+            else if(num_matches == 3 && ULN == luckN){
+                payout = "Congrats you've won $150";
+                alert(payout);
+            }
+            else if(num_matches == 3 && ULN != luckN){
+                payout = "Congrats you've won $20";
+                alert(payout);
+            }
+            else if(num_matches == 2 && ULN == luckN){
+                payout = "Congrats you've won $25";
+                alert(payout);
+            }
+            else if(num_matches == 2 && ULN != luckN){
+                payout = "Congrats you've won $3";
+                alert(payout);
+            }
+            else if(num_matches == 1 && ULN == luckN){
+                payout = "Congrats you've won $6";
+                alert(payout);
+            }
+            else if(num_matches == 0 && ULN == luckN){
+                payout = "Congrats you've won $4";
+                alert(payout);
+            }
+            else{
+                payout = "Sorry, better Luck next time";
+                alert(payout);
+            }
+        }
+
+    </script>
+
+</body>
+</html>
